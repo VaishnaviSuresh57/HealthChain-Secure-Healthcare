@@ -1,54 +1,114 @@
-# HealthChain - Secure Health Records Management
+# 🔐 HealthChain – Secure Healthcare Management System
 
-Flask app for patients, doctors and admins. Medical records are encrypted, digitally signed
-and anchored on a hash chain (optionally on Ethereum/Ganache).
+A blockchain-based healthcare application designed to protect medical records through encryption, digital signatures, and blockchain-based integrity verification.
 
-## Quick start
+## 🚀 Features
 
-1. Install Python 3.10+ and MySQL 8, make sure MySQL is running.
-2. Create a virtual environment and install dependencies:
-   ```
-   python -m venv venv
-   venv\Scripts\activate          (Windows)   |   source venv/bin/activate   (Linux/Mac)
-   pip install -r requirements.txt
-   ```
-3. Copy `.env.example` to `.env` and set `DB_PASSWORD` (your MySQL root password).
-4. Create the first admin account (admins cannot self-register):
-   ```
-   python create_admin.py
-   ```
-5. Start the app and open http://127.0.0.1:5000
-   ```
-   python app.py            (or: python app.py 5001  to choose another port)
-   ```
+- 🔑 **Secure Authentication** – Role-based access for patients, doctors, and administrators.
+- 🏥 **Patient Management** – Patients can manage their healthcare access permissions.
+- 👨‍⚕️ **Doctor Module** – Doctors can upload and access authorized medical records.
+- 🔒 **Data Encryption** – Protects sensitive healthcare information.
+- ✍️ **Digital Signatures** – Supports verification of record authenticity.
+- ⛓️ **Blockchain Integrity** – Uses a custom blockchain to maintain record integrity.
+- 📊 **Admin Dashboard** – Provides administrative access and monitoring.
+- 🔗 **Ethereum Integration** – Optional integration with Ganache for blockchain anchoring.
 
-The database, tables, signing keys and blockchain file are created automatically on first run.
+## 🛠️ Tech Stack
 
-## Security features
+| Component | Technology |
+|---|---|
+| Backend | Python, Flask |
+| Database | MySQL |
+| Blockchain | Custom Blockchain |
+| Encryption | Fernet |
+| Digital Signatures | RSA |
+| Hashing | SHA-256 |
+| Smart Contract Testing | Ganache |
+| Frontend | HTML, CSS, JavaScript |
 
-| Area | Protection |
-|------|-----------|
-| Passwords | Salted PBKDF2-SHA256 (600k iterations). Old SHA-256 hashes are upgraded at next login. Min 8 chars, letter + number. |
-| Sessions | HttpOnly, SameSite=Lax cookies, optional Secure flag, random persisted secret key, 30 min idle timeout, session reset on login. |
-| CSRF | Every POST requires a per-session token. |
-| Brute force | 5 failed logins per IP+username -> 5 minute lock. |
-| Access control | Role checks on every route; admin-only: peers, resolve, reset, API info. Records/requests restricted to their owner (no IDOR). |
-| Admin accounts | Not available in the public register form - created with `create_admin.py`. |
-| Data at rest | Medical records encrypted per patient (Fernet). Patient keys and doctor RSA private keys are encrypted with a master key (`secret.key` / `HEALTHCHAIN_ENCRYPTION_KEY`). |
-| Integrity | RSA signatures + SHA-256 hash chain; peer blocks accepted only with `PEER_TOKEN`. |
-| Headers | CSP, X-Frame-Options, nosniff, Referrer-Policy, no-store caching, HSTS (when HTTPS). |
-| Misc | SQL is fully parameterised, no stack traces/errors exposed, 1 MB request limit, listens on 127.0.0.1 by default. |
+## 📁 Project Structure
 
-## Going to production
+```text
+HealthChain-Secure-Healthcare/
+├── app.py
+├── blockchain.py
+├── ethereum_anchor.py
+├── security.py
+├── requirements.txt
+├── .env.example
+├── .gitignore
+├── templates/
+├── static/
+└── README.md
+```
 
-* Serve over **HTTPS** (nginx / Caddy reverse proxy) and set `COOKIE_SECURE=true`.
-* Run with a real WSGI server, e.g. `pip install waitress` then
-  `waitress-serve --host 127.0.0.1 --port 5000 app:app`.
-  (If you use waitress, call `init_database()` once first, e.g. by running `python app.py` once.)
-* Use a dedicated MySQL user (not root) with rights only on the `healthchain` database.
-* Back up `secret.key` - without it encrypted keys in the database cannot be recovered.
-  Never commit `.env`, `secret.key` or `flask_secret.key`.
+## ⚙️ Setup Instructions
 
-## Peer nodes (optional)
+### 1. Clone the repository
 
-Set the same `PEER_TOKEN` in `.env` on every node, then log in as admin and open `/add_peer`.
+```bash
+git clone https://github.com/VaishnaviSuresh57/HealthChain-Secure-Healthcare.git
+cd HealthChain-Secure-Healthcare
+```
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+Activate it on Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure the database
+
+- Install and start MySQL.
+- Create the database named `healthchain` if your application does not create it automatically.
+- Copy `.env.example` to `.env`.
+- Configure your database connection and required secret values in `.env`.
+
+**Never upload `.env`, encryption keys, or real patient records to GitHub.**
+
+### 5. Run the application
+
+```bash
+python app.py
+```
+
+Open your browser at:
+
+```text
+http://127.0.0.1:5000
+```
+
+## 🔐 Security Considerations
+
+- Encrypt sensitive medical data.
+- Verify digital signatures and blockchain integrity.
+- Enforce authorization checks for protected operations.
+- Keep secret keys and database credentials outside the public repository.
+- Use HTTPS and secure configuration for production deployment.
+
+## 📸 Screenshots
+
+Add screenshots of the login page, patient dashboard, doctor module, and admin dashboard here.
+
+## 👩‍💻 Developed By
+
+**Vaishnavi S.**
+
+Computer Science and Engineering  
+HealthChain – Secure Healthcare Management System
+
+---
+
+*Academic project focused on healthcare data security, access control, and blockchain-based integrity.*

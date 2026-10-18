@@ -100,7 +100,20 @@ http://127.0.0.1:5000
 
 ## 📸 Screenshots
 
-Add screenshots of the login page, patient dashboard, doctor module, and admin dashboard here.
+## 📸 Screenshots
+
+### 🔐 Login Page
+![HealthChain Login](Login.png)
+
+### 🧑‍⚕️ Patient Dashboard
+![Patient Dashboard](patient_dashboard.png)
+
+### 👨‍⚕️ Doctor Dashboard
+![Doctor Dashboard](doctor_dashboard.png)
+
+### 📊 Admin Dashboard
+![Admin Dashboard](admin_dashboard.png)
+
 
 ## 👩‍💻 Developed By
 
